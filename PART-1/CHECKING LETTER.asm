@@ -1,0 +1,33 @@
+.MODEL SMALL
+.STACK 100H
+.DATA  
+    VAL DB ?
+    MSG DB 10,13, "YOUR LETTER: $"  
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    MOV AH,01
+    INT 21H
+    MOV VAL,AL
+    
+    CMP VAL,"Y"
+    JE DISPLAY 
+    CMP VAL,"y"
+    JE DISPLAY
+    JMP EXIT
+    
+    DISPLAY: 
+    MOV AH,09
+    LEA DX,MSG
+    INT 21H
+    MOV AH,02
+    MOV DL,VAL
+    INT 21H
+    
+    EXIT:
+    MOV AH,4CH
+    INT 21H
+    MAIN ENDP
+END MAIN
